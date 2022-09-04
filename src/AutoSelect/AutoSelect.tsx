@@ -1,5 +1,11 @@
 import React from 'react';
-import { Autocomplete, TextField, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
+
+interface LocationItem {
+    name: string;
+    region: string;
+    country: string;
+}
 
 const AutoSelect = () => {
 
@@ -46,30 +52,13 @@ const AutoSelect = () => {
         }
     ];
 
-    function Location({location}) {
-        return (
-            <Card>
-                <CardContent>
-                    <Typography>{location.name}</Typography>
-                    <Typography variant='h6' component='h2'>
-                        {location.region}
-                    </Typography>
-                    <Grid container>
-                        <Typography>
-                            {location.country}
-                        </Typography>
-                    </Grid>
-                </CardContent>
-            </Card>
-        );
-    };
 
     return(
         <div>
             <Autocomplete
                 id="autoselect-complex"
                 options={locations}
-                getOptionLabel={(location) => location.name}
+                getOptionLabel={(location: LocationItem) => location.name}
                 renderInput={(params) =>
                     <TextField
                         {...params}
@@ -78,7 +67,19 @@ const AutoSelect = () => {
                         variant='outlined'
                     />
                 }  
-                renderOption={(item) => <Location location={item} />}               
+                renderOption={(props, option: LocationItem) => (
+                    <li {...props}>
+                        <div className='name'>
+                            {option.name}
+                        </div>
+                        <div className='region'>
+                            {option.region}
+                        </div>
+                        <div className='country'>
+                            {option.country}
+                        </div>
+                    </li>
+                )}               
             />
         </div>
     )
